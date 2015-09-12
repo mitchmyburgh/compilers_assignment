@@ -1,0 +1,47 @@
+Created by PLY version 3.6 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COMMENT
+    WHITESPACE
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> statement
+Rule 2     program -> program statement
+Rule 3     statement -> ID = expression
+Rule 4     expression -> expression @ term
+Rule 5     expression -> expression $ term
+Rule 6     expression -> expression # term
+Rule 7     expression -> expression & term
+Rule 8     term -> term # factor
+Rule 9     term -> term & factor
+Rule 10    term -> factor
+Rule 11    factor -> ( expression )
+Rule 12    factor -> FLOAT_LITERAL
+Rule 13    factor -> ID
+
+Terminals, with rules where they appear
+
+#                    : 6 8
+$                    : 5
+&                    : 7 9
+(                    : 11
+)                    : 11
+=                    : 3
+@                    : 4
+COMMENT              : 
+FLOAT_LITERAL        : 12
+ID                   : 3 13
+WHITESPACE           : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+expression           : 3 4 5 6 7 11
+factor               : 8 9 10
+program              : 2 0
+statement            : 1 2
+term                 : 4 5 6 7 8 9
+
