@@ -2,14 +2,21 @@
 # lex_ula.py
 #
 # Lexical Analyser for the ula (unconventional language)
-# By Mitch Myburgh (MYBMIT001)
-# 12 09 2015
 #----------------------------------------------
 
-#import ply.lex
+#import
 import ply.lex as lex
-import fileinput # file input from terminal argument
-
+import fileinput
+##Just print the value here
+tokens_that_dont_get_printed = [
+    'PLUS', #@
+    'MINUS', #$
+    'TIMES', ##
+    'DIVIDE', #&
+    'EQUALS', #=
+    'LEFT_PAREN', #(
+    'RIGHT_PAREN' #)
+]
 ##Just print the type here
 tokens_that_value_dont_get_printed = [
     'COMMENT',
@@ -20,29 +27,43 @@ tokens_that_value_dont_get_printed = [
 tokens = (
     'ID',
     'FLOAT_LITERAL',
+    # 'PLUS', #@
+    # 'MINUS', #$
+    # 'TIMES', ##
+    # 'DIVIDE', #&
+    # 'EQUALS', #=
+    # 'LEFT_PAREN', #(
+    # 'RIGHT_PAREN', #)
     'COMMENT',
     'WHITESPACE'
 )
-##Literals - symbols used in ula
-literals = ['#','&','@','$', '=', '(', ')' ]
+literals = ['@','$','#','&', '=', '(', ')' ]
 # Regular expression rules for simple tokens
 t_ID            = r'[a-zA-z_][a-zA-Z_0-9]*'
-#Only ignore WHITESPACE and COMMENT if the file is imported
+# t_PLUS          = r'\@'
+# t_MINUS         = r'\$'
+# t_TIMES         = r'[#]'
+# t_DIVIDE        = r'\&'
+# t_EQUALS        = r'\='
+# t_LEFT_PAREN    = r'\('
+# t_RIGHT_PAREN   = r'\)'
 if __name__ == "__main__":
     t_WHITESPACE    = r'[\s]+' #\t\n\r
-    t_COMMENT       = r'(\/\/.*)|\/\*+((([^\*])+)|([\*]+(?!\/)))[*]+\/'
+    t_COMMENT       = r'(\/\/.*)|\/\*+((([^\*])+)|([\*]+(?!\/)))[*]+\/'#r'(\/\/.*)|(\/\*.*?\*\/)'
 else:
     t_ignore_WHITESPACE    = r'[\s]+' #\t\n\r
-    t_ignore_COMMENT       = r'(\/\/.*)|\/\*+((([^\*])+)|([\*]+(?!\/)))[*]+\/'
+    t_ignore_COMMENT       = r'(\/\/.*)|\/\*+((([^\*])+)|([\*]+(?!\/)))[*]+\/'#r'(\/\/.*)|(\/\*.*?\*\/)'
+t_FLOAT_LITERAL = r'[\+-]?\d+(\d+)?([eE][\+-]?\d+)?'
+# A regular expression rule with action code for FLOAT_LITERAL
+#def t_FLOAT_LITERAL(t):
+    #r'[\+-]?\d+(.\d+)?([eE][\+-]?\d+)?'
+    #t.value = float(t.value)
+    #return t
 
-##Regular expression for float literals
-t_FLOAT_LITERAL = r'[\+-]?\d+(\d+)?(\.\d+)?([eE][\+-]?\d+)?'
-
-##NOTE this affects the detecting of white space so is removed
 # Define a rule so we can track line numbers
-# def t_newline(t):
-#     r'\n+'
-#     t.lexer.lineno += len(t.value)
+def t_newline(t):
+    r'\n+'
+    t.lexer.lineno += len(t.value)
 
 # Error handling rule
 def t_error(t):
@@ -69,10 +90,13 @@ if __name__ == "__main__":
         tok = lexer.token()
         if not tok:
             break      # No more input
-        if (tok.type in tokens_that_value_dont_get_printed): #print tokens that only the type get printed
+        if (tok.type in tokens_that_value_dont_get_printed):
             file.write(tok.type+"\n")
             print(tok.type)
-        else: #print standard tokens
+        elif (tok.type in tokens_that_dont_get_printed):
+            file.write(str(tok.value)+"\n")
+            print(str(tok.value))
+        else:
             file.write(tok.type+","+str(tok.value)+"\n")
             print(tok.type+","+str(tok.value))
     file.close()
