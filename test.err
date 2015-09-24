@@ -1,0 +1,13 @@
+Start
+	Program
+		AssignStatement
+			ID,valy,1
+			FloatExpression
+				FLOAT_LITERAL,45,2
+		AssignStatement
+			ID,valz,2
+			AddExpression
+				FloatExpression
+					FLOAT_LITERAL,34,2
+				IdentifierExpression
+					ID,valx,2

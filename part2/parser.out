@@ -1,0 +1,362 @@
+Created by PLY version 3.6 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    COMMENT
+    WHITESPACE
+
+Grammar
+
+Rule 0     S' -> Start
+Rule 1     Start -> Program
+Rule 2     Program -> Statements
+Rule 3     Statements -> Statements Statement
+Rule 4     Statements -> Statement
+Rule 5     Statement -> ID = expression
+Rule 6     expression -> expression @ term
+Rule 7     expression -> expression $ term
+Rule 8     expression -> term
+Rule 9     term -> term # factor
+Rule 10    term -> term & factor
+Rule 11    term -> factor
+Rule 12    factor -> ( expression )
+Rule 13    factor -> FLOAT_LITERAL
+Rule 14    factor -> ID
+
+Terminals, with rules where they appear
+
+#                    : 9
+$                    : 7
+&                    : 10
+(                    : 12
+)                    : 12
+=                    : 5
+@                    : 6
+COMMENT              : 
+FLOAT_LITERAL        : 13
+ID                   : 5 14
+WHITESPACE           : 
+error                : 
+
+Nonterminals, with rules where they appear
+
+Program              : 1
+Start                : 0
+Statement            : 3 4
+Statements           : 2 3
+expression           : 5 6 7 12
+factor               : 9 10 11
+term                 : 6 7 8 9 10
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . Start
+    (1) Start -> . Program
+    (2) Program -> . Statements
+    (3) Statements -> . Statements Statement
+    (4) Statements -> . Statement
+    (5) Statement -> . ID = expression
+
+    ID              shift and go to state 2
+
+    Start                          shift and go to state 1
+    Statements                     shift and go to state 3
+    Statement                      shift and go to state 4
+    Program                        shift and go to state 5
+
+state 1
+
+    (0) S' -> Start .
+
+
+
+state 2
+
+    (5) Statement -> ID . = expression
+
+    =               shift and go to state 6
+
+
+state 3
+
+    (2) Program -> Statements .
+    (3) Statements -> Statements . Statement
+    (5) Statement -> . ID = expression
+
+    $end            reduce using rule 2 (Program -> Statements .)
+    ID              shift and go to state 2
+
+    Statement                      shift and go to state 7
+
+state 4
+
+    (4) Statements -> Statement .
+
+    ID              reduce using rule 4 (Statements -> Statement .)
+    $end            reduce using rule 4 (Statements -> Statement .)
+
+
+state 5
+
+    (1) Start -> Program .
+
+    $end            reduce using rule 1 (Start -> Program .)
+
+
+state 6
+
+    (5) Statement -> ID = . expression
+    (6) expression -> . expression @ term
+    (7) expression -> . expression $ term
+    (8) expression -> . term
+    (9) term -> . term # factor
+    (10) term -> . term & factor
+    (11) term -> . factor
+    (12) factor -> . ( expression )
+    (13) factor -> . FLOAT_LITERAL
+    (14) factor -> . ID
+
+    (               shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 11
+    ID              shift and go to state 9
+
+    term                           shift and go to state 13
+    factor                         shift and go to state 10
+    expression                     shift and go to state 12
+
+state 7
+
+    (3) Statements -> Statements Statement .
+
+    ID              reduce using rule 3 (Statements -> Statements Statement .)
+    $end            reduce using rule 3 (Statements -> Statements Statement .)
+
+
+state 8
+
+    (12) factor -> ( . expression )
+    (6) expression -> . expression @ term
+    (7) expression -> . expression $ term
+    (8) expression -> . term
+    (9) term -> . term # factor
+    (10) term -> . term & factor
+    (11) term -> . factor
+    (12) factor -> . ( expression )
+    (13) factor -> . FLOAT_LITERAL
+    (14) factor -> . ID
+
+    (               shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 11
+    ID              shift and go to state 9
+
+    term                           shift and go to state 13
+    factor                         shift and go to state 10
+    expression                     shift and go to state 14
+
+state 9
+
+    (14) factor -> ID .
+
+    #               reduce using rule 14 (factor -> ID .)
+    &               reduce using rule 14 (factor -> ID .)
+    )               reduce using rule 14 (factor -> ID .)
+    @               reduce using rule 14 (factor -> ID .)
+    $               reduce using rule 14 (factor -> ID .)
+    ID              reduce using rule 14 (factor -> ID .)
+    $end            reduce using rule 14 (factor -> ID .)
+
+
+state 10
+
+    (11) term -> factor .
+
+    #               reduce using rule 11 (term -> factor .)
+    &               reduce using rule 11 (term -> factor .)
+    @               reduce using rule 11 (term -> factor .)
+    $               reduce using rule 11 (term -> factor .)
+    ID              reduce using rule 11 (term -> factor .)
+    $end            reduce using rule 11 (term -> factor .)
+    )               reduce using rule 11 (term -> factor .)
+
+
+state 11
+
+    (13) factor -> FLOAT_LITERAL .
+
+    #               reduce using rule 13 (factor -> FLOAT_LITERAL .)
+    &               reduce using rule 13 (factor -> FLOAT_LITERAL .)
+    )               reduce using rule 13 (factor -> FLOAT_LITERAL .)
+    @               reduce using rule 13 (factor -> FLOAT_LITERAL .)
+    $               reduce using rule 13 (factor -> FLOAT_LITERAL .)
+    ID              reduce using rule 13 (factor -> FLOAT_LITERAL .)
+    $end            reduce using rule 13 (factor -> FLOAT_LITERAL .)
+
+
+state 12
+
+    (5) Statement -> ID = expression .
+    (6) expression -> expression . @ term
+    (7) expression -> expression . $ term
+
+    ID              reduce using rule 5 (Statement -> ID = expression .)
+    $end            reduce using rule 5 (Statement -> ID = expression .)
+    @               shift and go to state 15
+    $               shift and go to state 16
+
+
+state 13
+
+    (8) expression -> term .
+    (9) term -> term . # factor
+    (10) term -> term . & factor
+
+    )               reduce using rule 8 (expression -> term .)
+    @               reduce using rule 8 (expression -> term .)
+    $               reduce using rule 8 (expression -> term .)
+    ID              reduce using rule 8 (expression -> term .)
+    $end            reduce using rule 8 (expression -> term .)
+    #               shift and go to state 17
+    &               shift and go to state 18
+
+
+state 14
+
+    (12) factor -> ( expression . )
+    (6) expression -> expression . @ term
+    (7) expression -> expression . $ term
+
+    )               shift and go to state 19
+    @               shift and go to state 15
+    $               shift and go to state 16
+
+
+state 15
+
+    (6) expression -> expression @ . term
+    (9) term -> . term # factor
+    (10) term -> . term & factor
+    (11) term -> . factor
+    (12) factor -> . ( expression )
+    (13) factor -> . FLOAT_LITERAL
+    (14) factor -> . ID
+
+    (               shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 11
+    ID              shift and go to state 9
+
+    term                           shift and go to state 20
+    factor                         shift and go to state 10
+
+state 16
+
+    (7) expression -> expression $ . term
+    (9) term -> . term # factor
+    (10) term -> . term & factor
+    (11) term -> . factor
+    (12) factor -> . ( expression )
+    (13) factor -> . FLOAT_LITERAL
+    (14) factor -> . ID
+
+    (               shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 11
+    ID              shift and go to state 9
+
+    term                           shift and go to state 21
+    factor                         shift and go to state 10
+
+state 17
+
+    (9) term -> term # . factor
+    (12) factor -> . ( expression )
+    (13) factor -> . FLOAT_LITERAL
+    (14) factor -> . ID
+
+    (               shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 11
+    ID              shift and go to state 9
+
+    factor                         shift and go to state 22
+
+state 18
+
+    (10) term -> term & . factor
+    (12) factor -> . ( expression )
+    (13) factor -> . FLOAT_LITERAL
+    (14) factor -> . ID
+
+    (               shift and go to state 8
+    FLOAT_LITERAL   shift and go to state 11
+    ID              shift and go to state 9
+
+    factor                         shift and go to state 23
+
+state 19
+
+    (12) factor -> ( expression ) .
+
+    #               reduce using rule 12 (factor -> ( expression ) .)
+    &               reduce using rule 12 (factor -> ( expression ) .)
+    )               reduce using rule 12 (factor -> ( expression ) .)
+    @               reduce using rule 12 (factor -> ( expression ) .)
+    $               reduce using rule 12 (factor -> ( expression ) .)
+    ID              reduce using rule 12 (factor -> ( expression ) .)
+    $end            reduce using rule 12 (factor -> ( expression ) .)
+
+
+state 20
+
+    (6) expression -> expression @ term .
+    (9) term -> term . # factor
+    (10) term -> term . & factor
+
+    )               reduce using rule 6 (expression -> expression @ term .)
+    @               reduce using rule 6 (expression -> expression @ term .)
+    $               reduce using rule 6 (expression -> expression @ term .)
+    ID              reduce using rule 6 (expression -> expression @ term .)
+    $end            reduce using rule 6 (expression -> expression @ term .)
+    #               shift and go to state 17
+    &               shift and go to state 18
+
+
+state 21
+
+    (7) expression -> expression $ term .
+    (9) term -> term . # factor
+    (10) term -> term . & factor
+
+    )               reduce using rule 7 (expression -> expression $ term .)
+    @               reduce using rule 7 (expression -> expression $ term .)
+    $               reduce using rule 7 (expression -> expression $ term .)
+    ID              reduce using rule 7 (expression -> expression $ term .)
+    $end            reduce using rule 7 (expression -> expression $ term .)
+    #               shift and go to state 17
+    &               shift and go to state 18
+
+
+state 22
+
+    (9) term -> term # factor .
+
+    #               reduce using rule 9 (term -> term # factor .)
+    &               reduce using rule 9 (term -> term # factor .)
+    @               reduce using rule 9 (term -> term # factor .)
+    $               reduce using rule 9 (term -> term # factor .)
+    ID              reduce using rule 9 (term -> term # factor .)
+    $end            reduce using rule 9 (term -> term # factor .)
+    )               reduce using rule 9 (term -> term # factor .)
+
+
+state 23
+
+    (10) term -> term & factor .
+
+    #               reduce using rule 10 (term -> term & factor .)
+    &               reduce using rule 10 (term -> term & factor .)
+    @               reduce using rule 10 (term -> term & factor .)
+    $               reduce using rule 10 (term -> term & factor .)
+    ID              reduce using rule 10 (term -> term & factor .)
+    $end            reduce using rule 10 (term -> term & factor .)
+    )               reduce using rule 10 (term -> term & factor .)
+

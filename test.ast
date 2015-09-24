@@ -1,0 +1,13 @@
+Start
+	Program
+		AssignStatement
+			ID,a
+			FloatExpression
+				FLOAT_LITERAL,54
+		AssignStatement
+			ID,b
+			AddExpression
+				IdentifierExpression
+					ID,a
+				IdentifierExpression
+					ID,c
